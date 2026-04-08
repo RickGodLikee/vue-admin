@@ -27,3 +27,14 @@ export const setUserMenu = (data) => {
 export const getMenuList  = (params) => {
   return request.get(`/menu/list`, { params });
 }
+
+export const menuSelectlist = (params) => {
+  return request.get(`/menu/selectlist`,{ params })
+}
+
+export const updateUser = (data) => {
+  return request.post(`/update/user`, data);
+}
+export const menuPermissions = (params) => {
+  return request.get(`/menu/permissions`, { params });
+}

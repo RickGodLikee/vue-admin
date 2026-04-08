@@ -40,6 +40,7 @@ http.interceptors.response.use(
       ElMessage.error(response.data.message);
       localStorage.removeItem("pz_token");
       localStorage.removeItem("pz_userInfo");
+      localStorage.removeItem('pz_main_store')
       setTimeout(() => {
         // window.location.href = "/login";
         window.location.href = window.location.origin

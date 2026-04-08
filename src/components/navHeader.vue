@@ -20,21 +20,17 @@
       </ul>
     </div>
     <div class="header-right">
-      <el-dropdown>
+      <el-dropdown @command = "handleClick">
         <div class="el-dropdown-link flex-box">
           <el-avatar
             size="40px"
-            src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+            :src="userInfo.avatar"
           />
-          <p class="user-name">Admin</p>
+          <p class="user-name">{{ userInfo.name }}</p>
         </div>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item>Action 1</el-dropdown-item>
-            <el-dropdown-item>Action 2</el-dropdown-item>
-            <el-dropdown-item>Action 3</el-dropdown-item>
-            <el-dropdown-item disabled>Action 4</el-dropdown-item>
-            <el-dropdown-item divided>Action 5</el-dropdown-item>
+            <el-dropdown-item command="cancel">退出</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -49,6 +45,8 @@ const route = useRoute();
 const router = useRouter();
 const mainStore = useMainStore();
 const selectMenu = computed(() => mainStore.selectMenu);
+
+const userInfo = JSON.parse(localStorage.getItem('pz_userInfo'))
 
 const closeTab = (item, index) => {
   console.log(selectMenu,"selectmenu",item,"oo", index);
@@ -72,6 +70,15 @@ const closeTab = (item, index) => {
     });
   }
 };
+
+const handleClick = (command) => {
+  if(command == 'cancel'){
+    localStorage.removeItem('pz_token')
+    localStorage.removeItem('pz_userInfo')
+    localStorage.removeItem('pz_main_store')
+    window.location.href = window.location.origin
+  }
+}
 </script>
 <style lang="less" scoped>
 .flex-box {

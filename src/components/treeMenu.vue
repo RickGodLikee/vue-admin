@@ -61,8 +61,9 @@ import { useMainStore, } from '../store/menu'
 const mainStore = useMainStore()
 
 const handleClick = (item, active) => {
-  console.log(item, active);
+  console.log(item, active,"item");
   mainStore.addMenu(item.meta);
+  mainStore.updateMenuActive(active);
   router.push(item.meta.path);
 };
 </script>

@@ -59,12 +59,15 @@
 </template>
 
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, computed, toRaw, } from "vue";
 import { UserFilled, Lock } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
 const imgUrl = new URL("../../../public/login-head.png", import.meta.url).href;
-import { getCode, userAuthentication, login } from "../../api/index";
+import { getCode, userAuthentication, login, menuPermissions } from "../../api/index";
 import { useRouter } from "vue-router";
+import { useMainStore } from "../../store/menu";
+const mainStore = useMainStore()
+
 // 切换表单 （0登录，1注册）
 const formType = ref(0);
 const loginFormRef = ref();
@@ -97,6 +100,8 @@ const loginForm = reactive({
 });
 
 const router = useRouter();
+
+const routerList = computed(() => mainStore.routerList)
 
 // 发送短信
 const countDown = reactive({
@@ -207,7 +212,15 @@ const handleLogin = async (formRef) => {
             // 将用户信息存储到 localStorage,需要JSON.stringify转换 
             localStorage.setItem("pz_userInfo", JSON.stringify(res.data.data.userInfo));
             // 可以在这里处理登录成功后的逻辑，例如跳转到首页
-            router.push({ path: "/" });
+            menuPermissions().then(({data})=>{
+              mainStore.dynamicMenu(data.data)
+              console.log(routerList,"routerList")
+              toRaw(routerList.value).forEach(item => {
+                router.addRoute('main',item)
+              });
+              router.push({ path: "/" });
+
+            })
           } else {
             ElMessage({
               message: res.data.message || "登录失败",
