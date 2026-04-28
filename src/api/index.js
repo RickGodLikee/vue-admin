@@ -38,3 +38,12 @@ export const updateUser = (data) => {
 export const menuPermissions = (params) => {
   return request.get(`/menu/permissions`, { params });
 }
+
+export const photoList = (params) => {
+  return request.get(`/photo/list`, { params });
+}
+
+export const addCompanion = (data) => {
+  return request.post(`/companion`, data);
+}
+
